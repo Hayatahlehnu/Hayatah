@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HL - ปรากฏการณ์เอลนีโญในประเทศไทย</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts (Prompt) -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Top Bar */
+        .gov-topbar {
+            background-color: #0b2545;
+            color: #ffffff;
+            font-size: 0.85rem;
+            border-bottom: 3px solid #134074;
+        }
+
+        /* Navbar & Custom Creative Minimalist HL Logo Design */
+        .navbar-gov {
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .hl-minimal-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #0b2545 0%, #134074 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 3px 8px rgba(11, 37, 69, 0.25);
+            border: 2px solid #ee6c4d;
+        }
+
+        .hl-logo-text {
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .hl-logo-accent-sun {
+            position: absolute;
+            top: 3px;
+            right: 4px;
+            color: #ffb703;
+            font-size: 0.85rem;
+        }
+
+        .hl-logo-accent-wind {
+            position: absolute;
+            bottom: 3px;
+            left: 4px;
+            color: #8ecae6;
+            font-size: 0.8rem;
+        }
+
+        /* Page Header Banner */
+        .page-header-section {
+            background: linear-gradient(135deg, #0b2545 0%, #134074 70%, #1e528e 100%);
+            color: white;
+            padding: 50px 0;
+            border-bottom: 5px solid #ee6c4d;
+        }
+
+        /* Main Article Card */
+        .article-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            background-color: #ffffff;
+        }
+
+        .article-heading {
+            color: #0b2545;
+            font-weight: 700;
+            border-left: 5px solid #ee6c4d;
+            padding-left: 14px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.35rem;
+        }
+
+        .article-heading:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Highlight Boxes */
+        .info-box-danger {
+            background-color: #fff5f5;
+            border-left: 5px solid #dc3545;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.08);
+        }
+
+        .info-box-warning {
+            background-color: #fff9e6;
+            border-left: 5px solid #ffb703;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(255, 183, 3, 0.1);
+        }
+
+        .info-box-primary {
+            background-color: #f0f7ff;
+            border-left: 5px solid #0d6efd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.08);
+        }
+
+        /* Content SVG Container Styling */
+        .content-img-container {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        /* Google Maps Styling */
+        #googleMap {
+            height: 480px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        /* Footer Sitemap Style */
+        .footer-sitemap {
+            background-color: #0b2545;
+            color: #ffffff;
+            padding: 50px 0 30px 0;
+            border-top: 5px solid #134074;
+        }
+
+        .footer-sitemap h5 {
+            color: #ee6c4d;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #134074;
+            padding-bottom: 8px;
+        }
+
+        .footer-sitemap ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-sitemap ul li a {
+            color: #ced4da;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .footer-sitemap ul li a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* Sub Footer & Academic Badge Style */
+        .sub-footer {
+            background-color: #07192f;
+            color: #8d99ae;
+            font-size: 0.88rem;
+            padding: 30px 0 20px 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .academic-info-card {
+            background: rgba(19, 64, 116, 0.4);
+            border: 1px solid rgba(238, 108, 77, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 850px;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Floating Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            background-color: #ee6c4d;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            z-index: 1000;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+        }
+
+        .back-to-top:hover {
+            background-color: #d9532d;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .region-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s;
+            background-color: #ffffff;
+        }
+        .region-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body id="top">
+
+    <!-- Top Utility Bar -->
+    <div class="gov-topbar py-2 px-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <i class="bi bi-globe2 me-1 text-warning"></i> เอลนีโญ (HL)
+            </div>
+            <div>
+                <a href="tel:1182" class="text-white text-decoration-none"><span class="badge bg-danger"><i class="bi bi-telephone-fill me-1"></i> สายด่วนอุตุนิยมวิทยา: 1182</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-gov sticky-top py-2">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-3" href="#top">
+                <div class="hl-minimal-logo">
+                    <span class="hl-logo-text">HL</span>
+                    <i class="bi bi-sun-fill hl-logo-accent-sun"></i>
+                    <i class="bi bi-wind hl-logo-accent-wind"></i>
+                </div>
+                <div>
+                    <h3 class="mb-0 fw-bold text-primary" style="line-height: 1; font-size: 1.4rem; letter-spacing: 0.5px;">HL</h3>
+                    <small class="text-muted fw-semibold" style="font-size: 0.75rem;">เอลนีโญในประเทศไทย</small>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navContent">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link px-2 fw-semibold" href="#sec-1">1. เอลนีโญคืออะไร</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="#sec-2">2. ผลกระทบในไทย</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="#sec-3">3. สาเหตุผลกระทบรายพื้นที่</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="#sec-map">4. แผนที่ตำแหน่งหน่วยงาน</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="page-header-section text-center">
+        <div class="container">
+            <span class="badge bg-warning text-dark mb-2 px-3 py-1 rounded-pill fw-bold fs-6"><i class="bi bi-journal-code me-1"></i> สารสนเทศภูมิศาสตร์และอุตุนิยมวิทยา</span>
+            <h1 class="fw-bold mb-2 display-5">ปรากฏการณ์เอลนีโญในประเทศไทย</h1>
+            <p class="mb-0 text-light opacity-80 fs-5">วิเคราะห์ความแตกต่างระหว่างพื้นที่รับฝนชุกและพื้นที่ประสบภัยแล้งรุนแรง</p>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container my-5" id="content-body">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <div class="article-card p-4 p-md-5">
+                    
+                    <!-- Section 1: เอลนีโญคืออะไร -->
+                    <h3 id="sec-1" class="article-heading">1. ปรากฏการณ์เอลนีโญ คืออะไร?</h3>
+                    <p class="text-secondary fs-6" style="line-height: 1.8;">
+                        <strong>เอลนีโญ (El Niño)</strong> เป็นปรากฏการณ์ทางธรรมชาติที่เกิดจากการอุ่นขึ้นผิดปกติของอุณหภูมิผิวน้ำทะเลในมหาสมุทรแปซิฟิกเขตร้อนตอนกลางและตะวันออก ส่งผลให้การหมุนเวียนของบรรยากาศระดับโลกเปลี่ยนแปลงไป โดยทำให้อากาศเหนือภูมิภาคเอเชียตะวันออกเฉียงใต้และประเทศไทยเกิดการจมตัวลง อากาศแห้ง มวลความชื้นลดลง และนำไปสู่สภาวะฝนทิ้งช่วงและภัยแล้ง
+                    </p>
+
+                    <!-- Section 2: ผลกระทบต่อประเทศไทย -->
+                    <h3 id="sec-2" class="article-heading">2. ผลกระทบหลักต่อประเทศไทย</h3>
+                    <p class="text-secondary fs-6" style="line-height: 1.8;">
+                        ในภาพรวม ปรากฏการณ์เอลนีโญส่งผลกระทบหลักต่อสภาวะอากาศของประเทศไทยใน 3 ลักษณะสำคัญ:
+                    </p>
+
+                    <div class="row g-3 my-3">
+                        <div class="col-md-4">
+                            <div class="info-box-danger h-100">
+                                <h6 class="fw-bold text-danger"><i class="bi bi-cloud-slash-fill me-2"></i>ปริมาณฝนรวมต่ำกว่าปกติ</h6>
+                                <p class="small text-secondary mb-0">ปริมาณฝนรวมทั้งประเทศลดลงจากค่าเฉลี่ยปกติประมาณ 5% - 20% และเกิดภาวะฝนทิ้งช่วงยาวนาน</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box-warning h-100">
+                                <h6 class="fw-bold text-warning-emphasis"><i class="bi bi-thermometer-high me-2"></i>อุณหภูมิเฉลี่ยสูงขึ้น</h6>
+                                <p class="small text-secondary mb-0">สภาวะอากาศร้อนอบอ้าว อุณหภูมิเฉลี่ยสูงกว่าค่าปกติ 0.5 - 1.5 °C ทำให้อัตราการระเหยของน้ำสูงขึ้น</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box-primary h-100">
+                                <h6 class="fw-bold text-primary"><i class="bi bi-droplet-half me-2"></i>สภาวะขาดแคลนน้ำ</h6>
+                                <p class="small text-secondary mb-0">ปริมาณน้ำไหลเข้าเขื่อนและอ่างเก็บน้ำลดลง ส่งผลกระทบต่อภาคเกษตรกรรมและน้ำเพื่อการอุปโภคบริโภค</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: ความแตกต่างของแต่ละพื้นที่ -->
+                    <h3 id="sec-3" class="article-heading">3. ความแตกต่างของพื้นที่ที่ได้รับผลกระทบไม่เหมือนกัน</h3>
+                    <p class="text-secondary fs-6" style="line-height: 1.8;">
+                        สาเหตุสำคัญที่ทำให้แต่ละพื้นที่และแต่ละจังหวัดเจอกับสภาวะฝนและภัยแล้งไม่เท่ากันช่วงเอลนีโญ เกิดจาก **ทิศทางลมมรสุมต้นทาง** และ **แนวทิวเขาบังลม** เฉพาะของพื้นที่นั้นๆ:
+                    </p>
+
+                    <div class="row g-3 my-3">
+                        <div class="col-md-6">
+                            <div class="region-card border-start border-4 border-success h-100">
+                                <h6 class="fw-bold text-success fs-6"><i class="bi bi-cloud-rain-fill me-2"></i>1. พื้นที่ฝั่งรับลมฝน (หน้าเขา)</h6>
+                                <p class="small text-dark fw-bold mb-2">ตัวอย่างจังหวัด: ระนอง, ตาก, กาญจนบุรี</p>
+                                <ul class="small text-secondary ps-3 mb-0" style="line-height: 1.7;">
+                                    <li><strong>ต้นทางลม:</strong> ลมมรสุมตะวันตกเฉียงใต้ พัดมาจาก <strong>มหาสมุทรอินเดียและทะเลอันดามัน</strong> หอบมวลความชื้นสูงเข้ามาปะทะชายฝั่ง</li>
+                                    <li><strong>แนวทิวเขาบังลม:</strong> ปะทะด้านหน้า <strong>ทิวเขาถนนธงชัย</strong> (ตาก), <strong>ทิวเขาตะนาวศรี</strong> (กาญจนบุรี) และ <strong>ทิวเขาภูเก็ต/ทิวเขาบรรทัด</strong> (ระนอง)</li>
+                                    <li><strong>ผลกระทบ:</strong> อากาศชื้นถูกดันให้ลอยตัวสูงขึ้นจนกลั่นตัวเป็นเมฆฝน ทำให้ฝั่งนี้ยังคงมีฝนตกชุก มีน้ำเพียงพอ และไม่แล้งหนัก</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="region-card border-start border-4 border-danger h-100">
+                                <h6 class="fw-bold text-danger fs-6"><i class="bi bi-sun-fill me-2"></i>2. พื้นที่เขตอับฝน (หลังเขา / เงาฝน)</h6>
+                                <p class="small text-dark fw-bold mb-2">ตัวอย่างจังหวัด: นครราชสีมา, ขอนแก่น, เพชรบุรี</p>
+                                <ul class="small text-secondary ps-3 mb-0" style="line-height: 1.7;">
+                                    <li><strong>ต้นทางลม:</strong> ลมที่พัดข้ามยอดเขาไปแล้ว จะสูญเสียความชื้นไปหมดทางฝั่งหน้าเขา กลายเป็น <strong>มวลอากาศแห้งจมตัวลง</strong></li>
+                                    <li><strong>แนวทิวเขาบังลม:</strong> ถูกบดบังโดย <strong>ทิวเขาเพชรบูรณ์และทิวเขาดงพญาเย็น</strong> (ภาคอีสาน) รวมถึง <strong>ทิวเขาตะนาวศรี</strong> (เพชรบุรี)</li>
+                                    <li><strong>ผลกระทบ:</strong> เมฆฝนไม่สามารถก่อตัวข้ามทิวเขามาได้ เกิดสภาวะฝนทิ้งช่วงยาวนาน แหล่งน้ำแห้งขอด และประสบภัยแล้งรุนแรงที่สุด</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SVG Diagram (Updated without city names and clearer text) -->
+                    <div class="content-img-container p-3 p-md-4 my-4 text-center">
+                        <svg viewBox="0 0 800 390" class="img-fluid rounded" style="max-height: 390px;">
+                            <defs>
+                                <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#e0f2fe"/>
+                                    <stop offset="100%" stop-color="#f8fafc"/>
+                                </linearGradient>
+                                <linearGradient id="seaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#0284c7"/>
+                                    <stop offset="100%" stop-color="#0369a1"/>
+                                </linearGradient>
+                                <linearGradient id="mountainGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#475569"/>
+                                    <stop offset="100%" stop-color="#1e293b"/>
+                                </linearGradient>
+                                <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                                    <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.1"/>
+                                </filter>
+                            </defs>
+
+                            <rect width="800" height="390" fill="url(#skyGrad)"/>
+                            
+                            <!-- Ocean -->
+                            <rect x="0" y="280" width="220" height="110" fill="url(#seaGrad)"/>
+                            <text x="35" y="335" font-family="Prompt" fill="#ffffff" font-size="13" font-weight="600">ทะเล / มหาสมุทรต้นทางลม</text>
+
+                            <!-- Wind Arrow From West -->
+                            <g filter="url(#shadow)">
+                                <path d="M 25 150 L 195 150" stroke="#0284c7" stroke-width="6" stroke-dasharray="10,6" fill="none" stroke-linecap="round"/>
+                                <polygon points="210,150 190,140 190,160" fill="#0284c7"/>
+                                <text x="25" y="128" font-family="Prompt" fill="#0369a1" font-size="12" font-weight="700">ลมมรสุมพัดพาความชื้นเข้ามา</text>
+                            </g>
+
+                            <!-- Mountains -->
+                            <g filter="url(#shadow)">
+                                <polygon points="220,330 330,90 440,330" fill="url(#mountainGrad1)"/>
+                                <text x="270" y="70" font-family="Prompt" fill="#0f172a" font-size="13" font-weight="700">แนวเทือกเขากั้นความชื้น</text>
+                            </g>
+
+                            <!-- Rain Clouds -->
+                            <g filter="url(#shadow)">
+                                <path d="M 160 170 Q 180 130 220 130 Q 250 110 280 130 Q 310 130 320 160 Q 330 180 300 190 L 170 190 Z" fill="#94a3b8" opacity="0.9"/>
+                                <line x1="190" y1="205" x2="180" y2="235" stroke="#0284c7" stroke-width="3" stroke-linecap="round"/>
+                                <line x1="215" y1="198" x2="205" y2="228" stroke="#0284c7" stroke-width="3" stroke-linecap="round"/>
+                                <line x1="240" y1="205" x2="230" y2="235" stroke="#0284c7" stroke-width="3" stroke-linecap="round"/>
+                            </g>
+
+                            <!-- Windward Box -->
+                            <g filter="url(#shadow)">
+                                <rect x="125" y="250" width="175" height="70" rx="8" fill="#f0fdf4" stroke="#22c55e" stroke-width="1.5"/>
+                                <text x="135" y="273" font-family="Prompt" fill="#15803d" font-size="12" font-weight="700">พื้นที่รับลมฝน (หน้าเขา)</text>
+                                <text x="135" y="291" font-family="Prompt" fill="#166534" font-size="10">ความชื้นปะทะเกิดฝนตกชุก</text>
+                                <text x="135" y="306" font-family="Prompt" fill="#166534" font-size="9.5">น้ำอุดมสมบูรณ์ ไม่แล้งหนัก</text>
+                            </g>
+
+                            <!-- Leeward Sun & Dry Wind -->
+                            <g filter="url(#shadow)">
+                                <circle cx="540" cy="110" r="28" fill="#f59e0b"/>
+                                <path d="M 420 180 Q 490 160 570 210" stroke="#ef4444" stroke-width="4" stroke-dasharray="6,5" fill="none" stroke-linecap="round"/>
+                                <polygon points="580,215 562,205 568,222" fill="#ef4444"/>
+                            </g>
+
+                            <!-- Leeward Box -->
+                            <g filter="url(#shadow)">
+                                <rect x="440" y="250" width="330" height="70" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+                                <text x="450" y="273" font-family="Prompt" fill="#b91c1c" font-size="12" font-weight="700">พื้นที่เขตอับฝน / เงาฝน (หลังเขา)</text>
+                                <text x="450" y="291" font-family="Prompt" fill="#991b1b" font-size="10">อากาศแห้งจมตัวลงหลังข้ามแนวเขา</text>
+                                <text x="450" y="306" font-family="Prompt" fill="#991b1b" font-size="9.5">ฝนทิ้งช่วงยาวนาน เสี่ยงภัยแล้งรุนแรง</text>
+                            </g>
+                        </svg>
+                        <p class="small text-muted mt-2 mb-0"><i class="bi bi-info-circle me-1"></i> แผนภาพแสดงกลไกการเกิดฝนบริเวณหน้าเขาและเขตเงาฝนหลังแนวเทือกเขาในช่วงปรากฏการณ์เอลนีโญ</p>
+                    </div>
+
+                    <!-- Section 4: Google Maps API -->
+                    <h3 id="sec-map" class="article-heading">4. แผนที่ตำแหน่งหน่วยงานเฝ้าระวังและรับมือในประเทศไทย</h3>
+                    <p class="text-secondary fs-6" style="line-height: 1.8;">
+                        คลิกหมุดบนแผนที่เพื่อดูรายละเอียด และกดปุ่มเพื่อเชื่อมโยงไปยังเว็บไซต์อย่างเป็นทางการของหน่วยงาน:
+                    </p>
+
+                    <div class="my-4">
+                        <div id="googleMap"></div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FLOATING BACK TO TOP BUTTON -->
+    <a href="#top" class="back-to-top" title="กลับสู่ด้านบน">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
+    <!-- FOOTER SITEMAP & REFERENCES -->
+    <footer id="footer-sitemap-section" class="footer-sitemap">
+        <div class="container">
+            <div class="row">
+                <!-- Column 1: About -->
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                    <h5>เกี่ยวกับ HL</h5>
+                    <p class="small text-secondary mb-3">ระบบสารสนเทศรวบรวมและเผยแพร่องค์ความรู้ด้านอุตุนิยมวิทยาและสภาวะการเปลี่ยนแปลงของภูมิอากาศในประเทศไทย</p>
+                    <p class="small text-warning mb-0"><i class="bi bi-code-slash me-1"></i> พัฒนาและเรียบเรียงโดย: <strong>Hayatah Lenu (HL)</strong></p>
+                </div>
+
+                <!-- Column 2: Quick Links / Sitemap -->
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                    <h5>สารบัญเนื้อหา</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#sec-1"><i class="bi bi-chevron-right me-1"></i> 1. เอลนีโญคืออะไร</a></li>
+                        <li><a href="#sec-2"><i class="bi bi-chevron-right me-1"></i> 2. ผลกระทบในไทย</a></li>
+                        <li><a href="#sec-3"><i class="bi bi-chevron-right me-1"></i> 3. สาเหตุผลกระทบรายพื้นที่</a></li>
+                        <li><a href="#sec-map"><i class="bi bi-chevron-right me-1"></i> 4. แผนที่ตำแหน่งหน่วยงาน</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact & Support -->
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <h5>ติดต่อสอบถามข้อมูล</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="tel:1182"><i class="bi bi-telephone-fill me-2 text-danger"></i> สายด่วนอุตุนิยมวิทยา: 1182</a></li>
+                        <li><a href="mailto:hayatahlenu@gmail.com"><i class="bi bi-envelope-fill me-2 text-primary"></i> อีเมล: hayatahlenu@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Reference Sources with Clickable External Links -->
+            <div class="border-top border-secondary pt-3 mt-2 text-secondary small">
+                <p class="mb-1 text-light"><i class="bi bi-bookmark-check-fill me-1 text-warning"></i> <strong>แหล่งอ้างอิงข้อมูล:</strong></p>
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item me-3">
+                        <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer" class="text-info text-decoration-none">
+                            <i class="bi bi-box-arrow-up-right me-1"></i>กรมอุตุนิยมวิทยา (www.tmd.go.th)
+                        </a>
+                    </li>
+                    <li class="list-inline-item me-3">
+                        <a href="https://www.dcc.go.th" target="_blank" rel="noopener noreferrer" class="text-info text-decoration-none">
+                            <i class="bi bi-box-arrow-up-right me-1"></i>กรมการเปลี่ยนแปลงสภาพภูมิอากาศและสิ่งแวดล้อม (www.dcc.go.th)
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sub Footer Copyright & Academic Information -->
+    <div class="sub-footer text-center">
+        <div class="container">
+            
+            <!-- Academic Information Box -->
+            <div class="academic-info-card">
+                <div class="row align-items-center text-center text-md-start">
+                    <div class="col-md-7 mb-3 mb-md-0 border-end-md border-secondary pe-md-4">
+                        <h6 class="text-warning fw-bold mb-2">
+                            <i class="bi bi-person-badge-fill me-2"></i>ข้อมูลผู้จัดทำเว็บไซต์
+                        </h6>
+                        <p class="text-light fw-bold mb-1 fs-6">นางสาวฮายาตะห์ เละนุ๊</p>
+                        <p class="text-light opacity-75 small mb-1"><i class="bi bi-card-text me-1"></i> รหัสนักศึกษา: <strong>6820210260</strong></p>
+                        <p class="text-light opacity-75 small mb-1"><i class="bi bi-building me-1"></i> คณะมนุษยศาสตร์และสังคมศาสตร์ สาขาภูมิศาสตร์</p>
+                        <p class="text-light opacity-75 small mb-0"><i class="bi bi-bank me-1"></i> มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตปัตตานี</p>
+                    </div>
+                    <div class="col-md-5 ps-md-4 text-center text-md-start">
+                        <h6 class="text-info fw-bold mb-2">
+                            <i class="bi bi-mortarboard-fill me-2"></i>อาจารย์ผู้สอน
+                        </h6>
+                        <p class="text-light fw-semibold mb-0 fs-6">ผศ.ดร. วุฒิพงษ์ แสงมณี</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mb-0 text-muted small">Copyright © 2026 HL. All Rights Reserved. | จัดทำโดย นางสาวฮายาตะห์ เละนุ๊ (HL)</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Global JS Function for Popup Link Navigation -->
+    <script>
+        function windowOpenAgencyUrl(url) {
+            window.open(url, '_blank');
+        }
+    </script>
+
+    <!-- Google Maps JavaScript API with Key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5l0aPyGFqiqY5DpqOYf-8YhN_eYHHobU&callback=initMap" async defer></script>
+
+    <script>
+        function initMap() {
+            const bangkok = { lat: 13.7563, lng: 100.5018 };
+            const map = new google.maps.Map(document.getElementById("googleMap"), {
+                zoom: 10,
+                center: bangkok,
+            });
+
+            // Thai Agencies Locations
+            const agencies = [
+                {
+                    name: "กรมอุตุนิยมวิทยา (กองพัฒนาอุตุนิยมวิทยา)",
+                    lat: 13.6678,
+                    lng: 100.6053,
+                    role: "เฝ้าระวัง วิเคราะห์ และออกรายงานการติดตามสภาวะเอลนีโญและลานีญาของประเทศไทย",
+                    phone: "สายด่วน 1182",
+                    url: "https://www.tmd.go.th"
+                },
+                {
+                    name: "กรมการเปลี่ยนแปลงสภาพภูมิอากาศและสิ่งแวดล้อม",
+                    lat: 13.7802,
+                    lng: 100.5380,
+                    role: "ติดตามผลกระทบ ประเมินความเสี่ยงด้านการเปลี่ยนแปลงสภาพภูมิอากาศและภัยแล้ง",
+                    phone: "02-278-8400",
+                    url: "https://www.dcc.go.th"
+                }
+            ];
+
+            agencies.forEach(agency => {
+                const marker = new google.maps.Marker({
+                    position: { lat: agency.lat, lng: agency.lng },
+                    map: map,
+                    title: agency.name
+                });
+
+                const contentString = `
+                    <div style="font-family: 'Prompt', sans-serif; padding: 6px; max-width: 240px;">
+                        <h6 style="color: #0b2545; font-weight: 700; margin-bottom: 6px; font-size: 0.95rem;">${agency.name}</h6>
+                        <p style="font-size: 0.83rem; color: #495057; margin-bottom: 8px; line-height: 1.5;"><strong>บทบาทหน้าที่:</strong> ${agency.role}</p>
+                        <p style="font-size: 0.82rem; color: #0d6efd; margin-bottom: 10px;"><i class="bi bi-telephone-fill"></i> ${agency.phone}</p>
+                        <button onclick="windowOpenAgencyUrl('${agency.url}')" class="btn btn-sm btn-primary text-white w-100" style="font-size: 0.8rem; font-family: 'Prompt', sans-serif;">
+                            <i class="bi bi-box-arrow-up-right me-1"></i> ไปยังเว็บไซต์หน่วยงาน
+                        </button>
+                    </div>
+                `;
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+
+                marker.addListener("click", () => {
+                    infowindow.open(map, marker);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
