@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps - Highest Mountains by Region in Thailand</title>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Kanit', sans-serif;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #e5e3df;
+        }
+
+        #map {
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* Search Panel Container */
+        .search-panel {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 10;
+            width: 400px;
+            max-width: calc(100% - 32px);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .search-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 6px 12px 6px 18px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            gap: 10px;
+        }
+
+        .search-card input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.95rem;
+            color: #202124;
+            background: transparent;
+        }
+
+        .btn-search {
+            background: #1e88e5;
+            color: #ffffff;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-search:hover {
+            background: #1565c0;
+        }
+
+        /* Location Chips Bar */
+        .chips-container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .chips-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip-btn {
+            background: #ffffff;
+            border: 1px solid #dadce0;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #2e7d32;
+            font-weight: 500;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip-btn:hover {
+            background: #e8f5e9;
+            color: #1b5e20;
+            border-color: #a5d6a7;
+        }
+
+        .chip-btn i {
+            color: #2e7d32;
+        }
+
+        /* InfoCard Popup Styles */
+        .gm-style-iw-c {
+            padding: 0 !important;
+            border-radius: 16px !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+        }
+
+        .gm-style-iw-d {
+            overflow: hidden !important;
+        }
+
+        .info-card {
+            width: 250px;
+            text-align: left;
+        }
+
+        .info-card img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        .info-card-content {
+            padding: 12px;
+        }
+
+        .info-card h3 {
+            font-size: 0.95rem;
+            color: #1b5e20;
+            margin-bottom: 4px;
+        }
+
+        .info-card p {
+            font-size: 0.8rem;
+            color: #5f6368;
+            line-height: 1.35;
+            margin-bottom: 10px;
+        }
+
+        /* ปุ่มเปิดลิงก์เว็บไซต์บทความ */
+        .btn-open-browser {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 8px 0;
+            background-color: #2e7d32;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-open-browser:hover {
+            background-color: #1b5e20;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-panel">
+        <div class="search-card">
+            <i class="fa-solid fa-mountain" style="color: #2e7d32;"></i>
+            <input type="text" id="searchInput" placeholder="ค้นหายอดเขาหรือสถานที่อื่นๆ..." onkeypress="handleKeyPress(event)">
+            <button class="btn-search" title="ค้นหา" onclick="searchLocation()"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <div class="chips-container" id="chipsContainer"></div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5l0aPyGFqiqY5DpqOYf-8YhN_eYHHobU&libraries=places&callback=initMap&v=weekly" async defer></script>
+
+    <script>
+        let map;
+        let service;
+        let infoWindow;
+        let markers = [];
+
+        // 🏔️ ข้อมูลภูเขาที่สูงที่สุดในแต่ละภาค พร้อมลิงก์เว็บไซต์ข้อมูลเฉพาะของแต่ละสถานที่
+        const geoPlaces = [
+            {
+                name: "ยอดดอยอินทนนท์ (ภาคเหนือ)",
+                pos: { lat: 18.5888, lng: 98.4870 },
+                desc: "จุดสูงสุดในประเทศไทย (2,565 เมตร) ตั้งอยู่ในอุทยานแห่งชาติดอยอินทนนท์ จังหวัดเชียงใหม่",
+                icon: "fa-mountain",
+                img: "img/1.jpg",
+                url: "https://th.wikipedia.org/wiki/%E0%B8%94%E0%B8%AD%E0%B8%A2%E0%B8%AD%E0%B8%B4%E0%B8%99%E0%B8%97%E0%B8%99%E0%B8%99%E0%B8%97%E0%B9%8C"
+            },
+            {
+                name: "ยอดภูหลวง (ภาคตะวันออกเฉียงเหนือ)",
+                pos: { lat: 17.2519, lng: 101.5833 },
+                desc: "จุดสูงสุดของภาคอีสาน (1,571 เมตร) เขตรักษาพันธุ์สัตว์ป่าภูหลวง จังหวัดเลย",
+                icon: "fa-mountain",
+                img: "img/2.jpg",
+                url: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%82%E0%B8%95%E0%B8%A3%E0%B8%B1%E0%B8%81%E0%B8%A9%E0%B8%B2%E0%B8%99%E0%B8%B3%E0%B8%AA%E0%B8%B1%E0%B8%95%E0%B9%82%E0%B8%99%E0%B9%8C%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B8%A0%E0%B8%B9%E0%B8%AB%E0%B8%A5%E0%B8%B8%E0%B8%AD%E0%B8%87"
+            },
+            {
+                name: "ยอดเขาโมโกจู (ภาคกลาง)",
+                pos: { lat: 16.0833, lng: 99.1000 },
+                desc: "จุดสูงสุดของภาคกลาง (1,964 เมตร) ตั้งอยู่ในอุทยานแห่งชาติแม่วงก์ จังหวัดกำแพงเพชร",
+                icon: "fa-mountain",
+                img: "img/3.jpg",
+                url: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B8%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%99%E0%B9%81%E0%B8%AB%E0%B9%88%E0%B8%87%E0%B8%84%E0%B8%B4%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%84%E0%B8%AD%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A7%E0%B8%87%E0%B8%81%E0%B9%8C"
+            },
+            {
+                name: "เขากะเจอลา (ภาคตะวันตก)",
+                pos: { lat: 16.1250, lng: 98.7900 },
+                desc: "ยอดเขาที่สูงที่สุดในภาคตะวันตก (2,152 เมตร) อำเภออุ้มผาง จังหวัดตาก",
+                icon: "fa-mountain",
+                img: "img/4.jpg",
+                url: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B8%E0%B8%A2%E0%B8%B2%E0%B8%99%E0%B9%81%E0%B8%AB%E0%B9%88%E0%B8%87%E0%B8%84%E0%B8%B2%E0%B8%95%E0%B8%B4%E0%B8%84%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%A5%E0%B8%B2%E0%B8%99"
+            },
+            {
+                name: "เขาสอยดาวใต้ (ภาคตะวันออก)",
+                pos: { lat: 13.0667, lng: 102.2000 },
+                desc: "ยอดเขาที่สูงที่สุดในภาคตะวันออก (1,675 เมตร) จังหวัดจันทบุรี",
+                icon: "fa-mountain",
+                img: "img/5.jpg",
+                url: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%82%E0%B8%B2%E0%B8%AA%E0%B8%AD%E0%B8%A2%E0%B8%B4%E0%B8%94%E0%B8%B2%E0%B8%A7"
+            },
+            {
+                name: "ยอดเขาหลวง (ภาคใต้)",
+                pos: { lat: 8.5083, lng: 99.7333 },
+                desc: "ยอดเขาที่สูงที่สุดในภาคใต้ (1,835 เมตร) อุทยานแห่งชาติเขาหลวง จังหวัดนครศรีธรรมราช",
+                icon: "fa-mountain",
+                img: "img/6.jpg",
+                url: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B8%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%99%E0%B9%81%E0%B8%AB%E0%B9%88%E0%B8%87%E0%B8%84%E0%B8%B2%E0%B8%95%E0%B8%B4%E0%B9%80%E0%B8%82%E0%B8%B2%E0%Bหลวง"
+            }
+        ];
+
+        function initMap() {
+            const thailandCenter = { lat: 13.0000, lng: 101.5000 };
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 6,
+                center: thailandCenter,
+                mapTypeId: 'terrain',
+                mapTypeControl: true,
+                mapTypeControlOptions: { position: google.maps.ControlPosition.TOP_RIGHT },
+                zoomControl: true,
+                zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_CENTER },
+                streetViewControl: true
+            });
+
+            infoWindow = new google.maps.InfoWindow();
+            service = new google.maps.places.PlacesService(map);
+
+            renderChips();
+            geoPlaces.forEach((place, index) => {
+                addCustomMarker(place, index);
+            });
+        }
+
+        function renderChips() {
+            const container = document.getElementById('chipsContainer');
+            container.innerHTML = '';
+            geoPlaces.forEach((place, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'chip-btn';
+                btn.innerHTML = `<i class="fa-solid ${place.icon || 'fa-location-dot'}"></i> ${place.name}`;
+                btn.onclick = () => focusPlace(index);
+                container.appendChild(btn);
+            });
+        }
+
+        function addCustomMarker(place, index) {
+            const marker = new google.maps.Marker({
+                position: place.pos,
+                map: map,
+                title: place.name,
+                animation: google.maps.Animation.DROP
+            });
+
+            markers.push(marker);
+
+            // ใช้ URL เว็บไซต์บทความของแต่ละสถานที่ (หากค้นหาใหม่และไม่มี url ให้ fallback ไปที่หน้าวิกิพีเดียกลาง)
+            const targetUrl = place.url || `https://th.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(place.name)}`;
+
+            marker.addListener("click", () => {
+                const contentString = `
+                    <div class="info-card">
+                        ${place.img ? `<img src="${place.img}" alt="${place.name}">` : ''}
+                        <div class="info-card-content">
+                            <h3>${place.name}</h3>
+                            <p>${place.desc}</p>
+                            <a href="${targetUrl}" target="_blank" class="btn-open-browser">
+                                <i class="fa-solid fa-book-open"></i> อ่านรายละเอียดเพิ่มเติม
+                            </a>
+                        </div>
+                    </div>
+                `;
+                infoWindow.setContent(contentString);
+                infoWindow.open(map, marker);
+                map.panTo(place.pos);
+            });
+        }
+
+        function focusPlace(index) {
+            const place = geoPlaces[index];
+            map.setZoom(10);
+            google.maps.event.trigger(markers[index], 'click');
+        }
+
+        function searchLocation() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) return;
+
+            const request = {
+                query: query,
+                fields: ['name', 'geometry', 'formatted_address', 'photos']
+            };
+
+            service.textSearch(request, (results, status) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK && results[0]) {
+                    const place = results[0];
+                    let photoUrl = "";
+                    
+                    if (place.photos && place.photos.length > 0) {
+                        photoUrl = place.photos[0].getUrl({ maxWidth: 400 });
+                    }
+
+                    const newLocation = {
+                        name: place.name,
+                        pos: place.geometry.location,
+                        desc: place.formatted_address,
+                        icon: "fa-earth-asia",
+                        img: photoUrl,
+                        url: `https://th.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(place.name)}`
+                    };
+
+                    geoPlaces.push(newLocation);
+                    const newIndex = geoPlaces.length - 1;
+                    
+                    addCustomMarker(newLocation, newIndex);
+                    renderChips();
+                    focusPlace(newIndex);
+                } else {
+                    alert('ไม่พบข้อมูลสถานที่ตามคำค้นหานี้');
+                }
+            });
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                searchLocation();
+            }
+        }
+    </script>
+</body>
+</html>
